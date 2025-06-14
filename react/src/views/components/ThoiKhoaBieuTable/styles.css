@@ -1,0 +1,102 @@
+#thoi-khoa-bieu th, #thoi-khoa-bieu td {
+    padding: 0.5em 0.3em;
+    border: 1px solid #ddd;
+}
+
+#thoi-khoa-bieu table thead tr th {
+    background-color: #eee;
+    text-align: center;
+    width: 3%;
+}
+
+/*#thoi-khoa-bieu {*/
+/*    width: 100%;*/
+/*    height: 100%;*/
+/*}*/
+
+#thoi-khoa-bieu table {
+    min-width: 1050px;
+    max-width: 1500px;
+    min-height: 75vh;
+    /* border: 2px dashed #52a4d3; */
+    /* https://stackoverflow.com/questions/628301/css3s-border-radius-property-and-border-collapsecollapse-dont-mix-how-can-i */
+    overflow: hidden;
+    border-radius: 5px;
+    border-spacing: 0;
+}
+
+#thoi-khoa-bieu table tr td {
+    background: #ccc !important;
+    border-bottom: 1px solid #ddd;
+}
+
+#thoi-khoa-bieu table tr td.cell-tiet {
+    text-align: center;
+    font-weight: 500;
+    width: 10em;
+}
+
+#thoi-khoa-bieu .cell-class {
+    background-color: #fff !important;
+    text-align: center;
+    width: 230px;
+    position: relative;
+}
+
+#thoi-khoa-bieu .cell-class .remove-class-btn {
+    opacity: 0;
+    transition: opacity 0.1s ease-in-out;
+}
+#thoi-khoa-bieu .cell-class-hovering .remove-class-btn {
+    opacity: 1;
+}
+
+#thoi-khoa-bieu {
+    position: relative;
+}
+#thoi-khoa-bieu .extra-buttons {
+    position: absolute;
+    top: 0;
+    right: 0;
+    opacity: 0;
+    transform: translateX(100%);
+    display: flex;
+    flex-direction: column;
+    transition: 0.1s ease-in-out;
+    border-radius: 5px;
+    background: #fff;
+    box-shadow: 0 0 2px #0003;
+}
+#thoi-khoa-bieu .extra-buttons.extra-buttons-shown {
+    opacity: 1;
+}
+#thoi-khoa-bieu.compact .extra-buttons {
+    display: none;
+}
+
+/* the tooltip by default is too far away from the anchor, i.e: "Xoá môn này" tooltip */
+.MuiTooltip-tooltipPlacementBottom {
+    margin-top: 0 !important;
+}
+
+#thoi-khoa-bieu.compact table {
+    font-size: 0.9em;
+}
+#thoi-khoa-bieu.compact table thead tr th {
+    width: 10ch;
+}
+#thoi-khoa-bieu.compact table {
+    min-width: 700px;
+}
+
+@media screen and (max-width: 1100px) {
+    #thoi-khoa-bieu table {
+        font-size: 0.9em;
+    }
+    #thoi-khoa-bieu table thead tr th {
+        width: 10ch;
+    }
+    #thoi-khoa-bieu table {
+        min-width: 700px;
+    }
+}

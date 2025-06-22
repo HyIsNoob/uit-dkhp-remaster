@@ -11,6 +11,8 @@
 
 ---
 
+[Click here](https://uit-dkhp-remaster.onrender.com/)
+
 ## 🌟 Tính năng nổi bật phiên bản 2024
 
 ### ✨ **Giao diện hoàn toàn mới**

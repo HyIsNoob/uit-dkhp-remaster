@@ -3,7 +3,7 @@
   <h1>🚀 UIT Smart Campus 2024 - Tool Đăng Ký Học Phần UIT</h1>
   <p><strong>Phiên bản nâng cấp toàn diện với giao diện hiện đại & trải nghiệm người dùng tuyệt vời</strong></p>
   
-  [![Live Demo](https://img.shields.io/badge/Live_Demo-dkhp--uit.render.app-blue?style=for-the-badge&logo=render)](https://uit-dkhp-remaster.onrender.com/)
+  [![Link](https://img.shields.io/badge/Live_Demo-dkhp--uit.render.app-blue?style=for-the-badge&logo=render)](https://uit-dkhp-remaster.onrender.com/)
   [![React](https://img.shields.io/badge/React-18.0-blue?style=for-the-badge&logo=react)](https://reactjs.org/)
   [![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue?style=for-the-badge&logo=typescript)](https://www.typescriptlang.org/)
   [![Material UI](https://img.shields.io/badge/Material_UI-5.14-blue?style=for-the-badge&logo=mui)](https://mui.com/)

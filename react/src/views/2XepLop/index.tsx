@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { 
   Box, 
   Container, 
@@ -8,17 +8,24 @@ import {
   Grid,
   Chip,
   alpha,
-  useTheme
+  useTheme,
+  Alert,
+  Button
 } from '@mui/material';
 import {
   Schedule as ScheduleIcon,
   ViewList as ViewListIcon,
   Analytics as AnalyticsIcon,
-  AutoAwesome as AutoAwesomeIcon
+  AutoAwesome as AutoAwesomeIcon,
+  ArrowForward as ArrowIcon
 } from '@mui/icons-material';
+import { useHistory } from 'react-router-dom';
 import AgGrid from './AgGrid';
 import TrungTkbDialog, { TrungTkbDialogContext } from './TrungTkbDialog';
 import { colors } from '../../theme';
+import { ROUTES } from '../../constants';
+import { selectSelectedClasses, selectTongSoTcSelected, useTkbStore } from '../../zus';
+import { getTongSoTcJudgement } from '../../utils';
 
 // Header section for the schedule page
 const ScheduleHeader = () => {
@@ -133,10 +140,45 @@ const ScheduleHeader = () => {
 
 // Main component with modern styling
 function Index(props) {
+  const history = useHistory();
+  const selectedClasses = useTkbStore(selectSelectedClasses);
+  const tongSoTC = useTkbStore(selectTongSoTcSelected);
+  const { isOk, text } = getTongSoTcJudgement(tongSoTC);
+
+  // Auto-navigate to results page when classes are selected
+  useEffect(() => {
+    if (selectedClasses.length > 0 && isOk) {
+      const timer = setTimeout(() => {
+        history.push(ROUTES._3KetQua.path);
+      }, 2000);
+      return () => clearTimeout(timer);
+    }
+  }, [selectedClasses.length, isOk, history]);
+
   return (
     <Box sx={{ minHeight: '100vh', background: colors.background.default }}>
       <Container maxWidth="xl" sx={{ py: 3 }}>
         <ScheduleHeader />
+        
+        {/* Progress indicator */}
+        {selectedClasses.length > 0 && (
+          <Alert 
+            severity={isOk ? "success" : "warning"}
+            sx={{ mb: 3, borderRadius: 2 }}
+            action={
+              <Button 
+                color="inherit" 
+                size="small"
+                endIcon={<ArrowIcon />}
+                onClick={() => history.push(ROUTES._3KetQua.path)}
+              >
+                Xem kết quả
+              </Button>
+            }
+          >
+            {text} - Đã chọn {selectedClasses.length} lớp ({tongSoTC} tín chỉ)
+          </Alert>
+        )}
         
         <Card
           sx={{

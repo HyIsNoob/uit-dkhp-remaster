@@ -16,30 +16,42 @@ export function arrayToTkbObject(array: any[]): ClassModelOriginal {
     );
   }
 
+  // Enhanced data validation and fallback handling
+  const safeParseInt = (value: any, defaultValue: number = 0) => {
+    if (value === null || value === undefined || value === '') return defaultValue;
+    const parsed = parseInt(value);
+    return isNaN(parsed) ? defaultValue : parsed;
+  };
+
+  const safeString = (value: any, defaultValue: string = '') => {
+    if (value === null || value === undefined) return defaultValue;
+    return String(value).trim();
+  };
+
   return {
-    STT: array[0],
-    MaMH: array[1],
-    MaLop: array[2],
-    TenMH: array[3],
-    MaGV: array[4],
-    TenGV: array[5],
-    SiSo: array[6],
-    SoTc: parseInt(array[7]),
-    ThucHanh: array[8],
-    HTGD: array[9],
-    Thu: String(array[10]),
-    Tiet: String(array[11]),
-    CachTuan: String(array[12]),
-    PhongHoc: array[13],
-    KhoaHoc: String(array[14]),
-    HocKy: String(array[15]),
-    NamHoc: String(array[16]),
-    HeDT: array[17],
-    KhoaQL: array[18],
+    STT: safeParseInt(array[0], 0),
+    MaMH: safeString(array[1], ''),
+    MaLop: safeString(array[2], ''),
+    TenMH: safeString(array[3], ''),
+    MaGV: safeString(array[4], ''),
+    TenGV: safeString(array[5], ''),
+    SiSo: safeString(array[6], ''),
+    SoTc: safeParseInt(array[7], 0),
+    ThucHanh: safeParseInt(array[8], 0),
+    HTGD: safeString(array[9], ''),
+    Thu: safeString(array[10], ''),
+    Tiet: safeString(array[11], ''),
+    CachTuan: safeString(array[12], ''),
+    PhongHoc: safeString(array[13], ''),
+    KhoaHoc: safeString(array[14], ''),
+    HocKy: safeString(array[15], ''),
+    NamHoc: safeString(array[16], ''),
+    HeDT: safeString(array[17], ''),
+    KhoaQL: safeString(array[18], ''),
     NBD: typeof array[19] === 'string' ? array[19] : convertExcelDateToStringDate(array[19]),
     NKT: typeof array[20] === 'string' ? array[20] : convertExcelDateToStringDate(array[20]),
-    GhiChu: array[21],
-    NgonNgu: array[22],
+    GhiChu: safeString(array[21], ''),
+    NgonNgu: safeString(array[22], ''),
   };
 }
 

@@ -1,9 +1,5 @@
-export const getScriptDkhp = (listMonDangKy: string[]) =>
-  `
-// Script đăng ký học phần tối ưu - dựa trên CaiTien-Deep.txt
-// Ưu tiên tốc độ và độ chính xác cao
-
-var monDangKy = "${listMonDangKy.join(',')}";
+var monDangKy =
+"CS406.Q12.1,SE357.Q11.1,CS406.Q12,SE357.Q11"; 
 var classCodes = monDangKy.split(",");
 
 function waitForElement(selector) {
@@ -50,4 +46,3 @@ waitForElement("tbody > tr").then((element) => {
   });
   return "Done";
 });
-`.trim();

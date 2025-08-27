@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import {
   Box,
   Typography,
@@ -24,10 +24,12 @@ import {
   InsertDriveFile as ExcelIcon,
 } from '@mui/icons-material';
 import { useDropzone } from 'react-dropzone';
+import { useHistory } from 'react-router-dom';
 import { enqueueSnackbar } from 'notistack';
 import XLSX from 'xlsx';
 import { colors } from '../../theme';
 import { selectDataExcel, useTkbStore } from '../../zus';
+import { ROUTES } from '../../constants';
 import { tracker } from '../..';
 import { arrayToTkbObject, toDateTimeString } from '../../views/1ChonFileExcel/utils';
 
@@ -236,6 +238,7 @@ const ModernFileUpload: React.FC<ModernFileUploadProps> = ({
   error,
   onClear,
 }) => {
+  const history = useHistory();
   const [isDragActive, setIsDragActive] = useState(false);
   const [processing, setProcessing] = useState(false);
   const dataExcel = useTkbStore(selectDataExcel);
@@ -254,9 +257,22 @@ const ModernFileUpload: React.FC<ModernFileUploadProps> = ({
         const wsThucHanh = wb.Sheets[wb.SheetNames[1]];
         const dataLyThuyet = XLSX.utils.sheet_to_json<any[][]>(wsLyThuyet, { header: 1 });
         const dataThucHanh = XLSX.utils.sheet_to_json<any[][]>(wsThucHanh, { header: 1 });
-        const dataInArray = [...dataLyThuyet, ...dataThucHanh].filter(
-          (row) => typeof row[0] === 'number', // những row có cột 0 là STT (STT là number) thì mới là data ta cần
-        );
+        // Enhanced data filtering - more robust than just checking STT
+        const dataInArray = [...dataLyThuyet, ...dataThucHanh].filter((row) => {
+          // Check if row has valid data structure
+          if (!Array.isArray(row) || row.length < 3) return false;
+          
+          // Check if STT is a valid number
+          const stt = row[0];
+          if (typeof stt !== 'number' || isNaN(stt) || stt <= 0) return false;
+          
+          // Check if MaMH and MaLop exist
+          const maMH = row[1];
+          const maLop = row[2];
+          if (!maMH || !maLop || String(maMH).trim() === '' || String(maLop).trim() === '') return false;
+          
+          return true;
+        });
         
         if (dataInArray.length) {
           setDataExcel({
@@ -265,11 +281,17 @@ const ModernFileUpload: React.FC<ModernFileUploadProps> = ({
             lastUpdate: toDateTimeString(new Date()),
           });
           
-          enqueueSnackbar(`Upload thành công ${file.name}`, {
+          enqueueSnackbar(`Upload thành công ${file.name} - Tự động chuyển sang trang xếp lịch sau 1.5s`, {
             variant: 'success',
+            autoHideDuration: 3000,
           });
           
           tracker.track('[page1] upload_excel_resulted', { success: true, fileName: file.name });
+          
+          // Auto-navigate to scheduling page after successful upload
+          setTimeout(() => {
+            history.push(ROUTES._2XepLop.path);
+          }, 1500);
         } else {
           enqueueSnackbar('Không đúng định dạng file của trường', {
             variant: 'error',
